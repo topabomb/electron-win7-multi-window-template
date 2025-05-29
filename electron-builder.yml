@@ -9,8 +9,18 @@ files:
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+#如下逐项排除前端依赖包，因为渲染线程会打包依赖项，而主进程不会
+  - '!node_modules/@vue'
+  - '!node_modules/@quasar'
+  - '!node_modules/quasar'
+  - '!node_modules/pinia'
+  - '!node_modules/vue-echarts'
+  - '!node_modules/vue-router'
+asar:
+  true
 asarUnpack:
   - resources/**
+  - scripts/**
 win:
   executableName: electron-win7-template
   target: dir

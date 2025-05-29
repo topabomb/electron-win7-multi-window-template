@@ -1,9 +1,9 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, dialog, utilityProcess, powerSaveBlocker } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { createManager } from './manager'
 import { createIpcManager } from './ipc'
 import { createProcessManager } from './process'
-import { sysError, addLogHandler, sysLog } from './logger'
+import { sysError, addLogHandler } from './logger'
 import { dirname, join } from 'node:path'
 import fs from 'node:fs'
 
@@ -33,6 +33,8 @@ if (CheckBackendExists && (!fs.existsSync(PythonBinDir) || !fs.existsSync(Backen
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('cn.mrling')
+  //阻止系统进入低功耗（睡眠）模式。
+  const powerSaveId = powerSaveBlocker.start('prevent-display-sleep')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -66,6 +68,13 @@ app.whenReady().then(() => {
     { id: 'npm-test-loop', cmd: 'npm', args: ['run', 'test:loop'], options: { shell: true } }
     /*
     {
+      id: 'node-test-loop',
+      cmd: process.execPath,
+      args: ['scripts/loop.js'],
+      options: { shell: false }
+    }*/
+    /*
+    {
       id: 'python-loop',
       cmd: PythonBinDir,
       args: ['-u', join(BackendDir, 'loop.py')],
@@ -83,6 +92,7 @@ app.whenReady().then(() => {
     } catch (err) {
       sysError('Shutdown error:', err)
     } finally {
+      powerSaveId && powerSaveBlocker.stop(powerSaveId)
       app.exit(0)
     }
   }
