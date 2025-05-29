@@ -20,7 +20,7 @@ const routes = [
     children: [
       {
         path: '',
-        component: () => import('./windows/monitor/pages/Version.vue')
+        component: () => import('./windows/monitor/pages/Process.vue')
       }
     ]
   }

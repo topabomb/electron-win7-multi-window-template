@@ -19,7 +19,8 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
-    "test:loop": "ts-node scripts/loop.ts"
+    "test:loop": "ts-node scripts/loop.ts",
+    "copy-to-unpacked": "ts-node scripts/copy-to-unpacked.ts"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
