@@ -40,5 +40,12 @@ export default tseslint.config(
       '@typescript-eslint/explicit-function-return-type': 'warn'
     }
   },
-  eslintConfigPrettier
+  eslintConfigPrettier,
+  {
+    rules: {
+      'prettier/prettier': {
+        endOfLine: 'off'
+      }
+    }
+  }
 )
